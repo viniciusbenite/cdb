@@ -1,0 +1,100 @@
+hlen Book:4
+hkeys Book:4
+hkeys Book:3
+hvalues Book:4
+hvals Book:4
+hdel Book:4 ISBN
+hgetall Book:4
+hincrby Book:4 copyrightYear 1
+hgetall Book:4
+set Org:5 "Beattles"
+sadd Org:5:member 11 22 33 44
+smember Org:5:member
+smembers Org:5:member
+sismember Org:5:member 66
+sismember Org:5:member 22
+scard Org:5:member
+set Org:6 "Metallica"
+set Org:7 "Ghost"
+sadd Org:6 77 88 99
+sadd Org:6:member 77 88 99
+sadd Org:7:member 666 777 888
+sunion Org:5member Org:6:member
+sunion Org:5:member Org:6:member
+sunion Org:5:member Org:6:member Org:7:member
+sadd Org:5:member 666
+sinter Org:5:member Org:7:member
+zadd copyrightYear 1996 Book:1 2014 Book:2 1963 Book:3
+zadd copyrightYear 1969 Book:4
+zrange copyrightYear 0 -1
+zrange copyrightYear 0 -1 withscores
+zrevrange copyrightYear 0 -1
+zrevrange copyrightYear 0 -1 withcores
+zrevrange copyrightYear 0 -1 withscores
+zadd Book:names 0 "Into the Wild" 0 "Cats Cradle"
+zadd Book:names 0 "Time" 0 "Gravity"
+zrange names 0 -1 withscores
+zrange Book:names 0 -1 withscores
+zrevrange Book:names 0 -1 withscores
+zcount copyrightYears 1900 1970
+zcount copyrightYears 1900 2000
+zcount copyrightYear 1900 1070
+zcount copyrightYear 1900 1970
+zrangebyscore copyrightYear 1900 1970 withscores
+zrangebyscore copyrightYear -inf 2000  withscores
+zrangebyscore copyrightYear 2000 +inf  withscores
+save
+bgsave
+config get appendonly
+config get appendonlyasdqff
+config get port
+config set appendonly yes
+config get appendonly
+monitor
+config get appendonly
+bgrewriteaof
+multi
+incr test
+incr test1
+discard
+multi
+incr test
+incr test1
+exec
+hset Movie:345 name "Bla"
+set Movier:345:likes 200
+multi
+hset Movie:345 copyrightYear 2000
+incr Movie:345:likes
+exec
+del Movier
+del Movier:345:likes
+set Movie:345:likes 200
+multi
+hset Movie:345 copyrightYear 2000
+incr Movie:345:likes
+exec
+multi
+hset Movie:345 copyrightYear 2015
+discard
+exec
+watch Movie:345:likes
+multi
+incr Movie:345:likes
+exec
+ls
+exit
+filename = 'females-names.txt'
+$file = 'females-names.txt'
+smembers total de nomes que começa pela letra
+smembers total
+smembers key
+smembers
+SMEMBERS NR
+SMEMBERS set
+SMEMBERS SET
+SMEMBERS /home/vinicius/Downloads/CDB/female-names.txt
+type
+type *
+smembers *
+exit
