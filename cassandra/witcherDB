@@ -1,0 +1,100 @@
+CREATE KEYSPACE Witcher3_weapons WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1 };
+
+BEGIN BATCH
+CREATE TABLE Characters(
+    char_id int,
+    level int,
+    gender text,
+    name text,
+    Primary key(char_id)
+);
+
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(001, 'male', 12, 'Geralt of Riviar')
+BEGIN BATCH
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(002, 'female', 140, 'Ciri');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(003, 'male', 13, 'Lambert');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(004, 'female', 67, 'Yeneffer');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(005, 'female', 99, 'Triss Merigold');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(006, 'male', 23, 'Blood Baron');
+BEGIN BATCH
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(007, 'male', 1, 'Roche');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(008, 'female', 1, 'Keyra Metz');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(009, 'male', 1, 'Dummy1');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(010, 'male', 1, 'Dummy2');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(011, 'male', 1, 'Dummy3');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(012, 'male', 1, 'Dummy4');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(013, 'male', 42, 'Whoreson Junior');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(014, 'male', 3, 'Dandelion');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(015, 'female', 35, 'Philippa Eilhart');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(0116, 'male', 29, 'King Foltest');
+APPLY BATCH;
+
+###########################################################
+
+CREATE TABLE Weapons(
+    weapon_id int,
+    required_level int,
+    damage map<text,int>,
+    bonuses list<text>,
+    type text,
+    item_level text,
+    Primary key((weapon_id, item_level), required_level)
+);
+
+CREATE TABLE Locations(
+    location_id int,
+    name text,
+    required_level int,
+    location_level int,
+    loots set<text>
+    Primary key(location_id)
+);
+
+CREATE TABLE Monsters(
+    monster_id int,
+    name text,
+    monster_level int,
+    location,
+    weaknesess set<text>,
+    strength set<text>,
+    Primary key((monster_id, monster_level), location)
+);
+
+BEGIN BATCH
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Caranthir Ar-Feiniel', 450, 'Velen', [fire], [ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(001, 'Eredin', 500, 'Velen', [], [fire, ice, poison, physical, bleeding]);
+APPLY BATCH;
