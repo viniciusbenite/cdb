@@ -1,0 +1,93 @@
+# Vinícius Ribeiro
+# NMec 82773
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+
+Cassandra -> base de dados com grande escabilidade horizontal
+
+create keyspace cbd_guiao03 with replication = { 'class': 'SimplStrategy', 'replication_factor': '3'};
+
+DESCBRIBE KEYSPACES;
+
+CREATE KEYSPACE test WITH replication = {'class': 'NetworkTopologyStrategy', 'datacenter1': '3'} AND durable_writes = 'false';
+
+USE ... ;
+
+ ALTER KEYSPACE cbd_guiao03 WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 3} ALTER KEYSPACE cbd_guiao03 WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_facot': 3};
+
+1) Simple Strategy: Specifies a simple replication factor for the cluster.
+2) Network Topology Strategy: Using this option, you can set the replication factor for each data-center independently.
+
+DROP KEYSPACE test;
+
+Ex 3.2)
+
+CREATE TABLE Users(
+    user_id int,
+    user_name text,
+    name text,
+    mail text,
+    country text, 
+    reg_date timestamp,
+    Primary key((user_id,reg_date), user_name)
+);
+
+CREATE TABLE Videos(
+    video_id int,
+    video_by_user text,
+    video_name text,
+    description text,
+    tags list<text>,
+    comments map<text,text>,
+    followers list<text>,
+    upload_date timestamp,
+    Primary key((video_id, upload_date), video_name)
+);
+
+CREATE TYPE MovieDB.comments(
+    comments map<'text':'text'>
+);
+
+CREATE TABLE Comments(
+    coment_id int,
+    author text,
+    video text,
+    coment_date timestamp,
+    Primary key(coment_id)
+);
+
+CREATE TABLE Subscriptions(
+    sub_id int,
+    video text,
+    user text,
+    Primary key(sub_id)
+);
+
+CREATE TABLE EventsLog(
+    event_id int,
+    by_user text,
+    in_video text,
+    event text,
+    time timestamp,
+    Primary key((event_id, event), by_user)
+);
+
+CREATE TABLE Rating(
+    rating int,
+    video text,
+    Primary key(rating)
+);
+
+BEGIN BATCH
+INSERT INTO Users (user_id, reg_date, user_name, country, mail, name)
+VALUES(1230918, toTimestamp(now()), 'João666', 'Portugal', 'joao@ua.pt', 'João Jośe');
+
+INSERT INTO Users (user_id, reg_date, user_name, country, mail, name)
+VALUES(1230919, toTimestamp(now()), 'João555', 'Espanha', 'joao2@ua.pt', 'João Mária');
+
+INSERT INTO Users (user_id, reg_date, user_name, country, mail, name)
+VALUES(1230920, toTimestamp(now()), 'João777', 'França', 'joao3@ua.pt', 'João João');
+
+INSERT INTO Videos (video_id, upload_date, video_name, comments, description, followers, tags, video_by_user)
+VALUES(2332423, toTimestamp(now()), 'Gato feio', {'João666': 'legal'},{'João555': 'horrivel'}, 'video de um gato feio', <'João666', 'João555'>, <'gato','miau'>, 'João777');
+APPLY BATCH;
