@@ -1,0 +1,43 @@
+# Vinicius Ribeiro
+# 82773
+
+#1
+MATCH (:Person)-[:ACTED_IN]->(movie)<-[:DIRECTED]-(director)
+RETURN movie.title, director.name
+
+#2
+MATCH (actor:Person)-[:ACTED_IN]->(movie) WHERE movie.released > 2005
+RETURN movie, actor
+
+#3
+MATCH (nodeOne)-[relation]-(nodeTwo)
+WITH distinct nodeOne,nodeTwo, count(relation) as rCount
+MATCH (nodeOne)-[relation]-(nodeTwo)
+where rCount > 1
+return nodeOne,relation,nodeTwo
+
+#4
+MATCH p1=()-[r:REVIEWED]->(m)<-[r2:REVIEWED]-(p2) 
+RETURN p1,m,p2
+
+#5
+MATCH (actor1)-[r1:ACTED_IN]->(m:Movie)<-[r2:ACTED_IN]-(actor2)
+RETURN actor1.name, m.title, actor2.name
+
+#6
+MATCH (p:Person)-[r:ACTED_IN]->(movie)
+WHERE movie.title="Apollo 13"
+RETURN p, (movie.released-p.born) AS actor_age
+
+#7
+MATCH (p:Person)-[r:ACTED_IN]->(m:Movie)
+WITH (m.released-p.born) as age
+WITH m.title, collect(avg(age)) as ageAvg
+ORDER BY ageAvg DESC
+UNWIND ageAvg[0..10] as topTen
+RETURN topTen
+
+#8
+
+#9
+
