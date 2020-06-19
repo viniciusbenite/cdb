@@ -1,2 +1,2 @@
-# cdb
-Repositório para a disciplina de Complementos de Base de Dados
+# Database Complements
+Repository to support database complements of Aveiro University
