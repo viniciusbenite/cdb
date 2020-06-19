@@ -1,0 +1,529 @@
+# Vinicius Ribeiro
+# NMEC 82773
+
+# Dataset: https://neo4j.com/graphgist/beer-amp-breweries-graphgist#_create_nodes_and_relationships
+
+#1 Todas as cervejas do tipo 'British Ale':
+
+MATCH (b:Beer)-[r:BEER_CATEGORY]->(c:Category{category:'British Ale'})
+RETURN b AS BEER, c AS TYPE
+
+╒════════════════════════════════════════════════╤══════════════════════════╕
+│"BEER"                                          │"TYPE"                    │
+╞════════════════════════════════════════════════╪══════════════════════════╡
+│{"abv":3.6,"name":"Bitter American"}            │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":0,"name":"Adler BrÃ¤u Winter Ale"}       │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5,"name":"Alaskan ESB"}                  │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":4.5,"name":"Adnam's Suffolk Special Bitte│{"category":"British Ale"}│
+│r"}                                             │                          │
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5.3,"name":"Alaskan Amber"}              │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5.7,"name":"Alaskan Stout"}              │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":3.3,"name":"Small Beer"}                 │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":9.5,"name":"Wee Heavy"}                  │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":6.3,"name":"Broadside Ale"}              │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":0,"name":"Abbey Ale"}                    │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5.2,"name":"Potrero ESB"}                │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5.35,"name":"Amherst ESB"}               │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":0,"name":"Scotch Ale"}                   │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":7.2,"name":"Half in the Bagpipe"}        │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5.2,"name":"Jolly Scot Scottish Ale"}    │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":8.2,"name":"Big Dick's Olde Ale"}        │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":5.5,"name":"Adnams Explorer"}            │{"category":"British Ale"}│
+├────────────────────────────────────────────────┼──────────────────────────┤
+│{"abv":8.6,"name":"Loyal Duke Scotch Ale"}      │{"category":"British Ale"}│
+└────────────────────────────────────────────────┴──────────────────────────┘
+
+#2 Todas as cervejas do estilo 'Ale':
+
+MATCH (b:Beer)-[r:BEER_STYLE]->(s:Style)
+WHERE s.style CONTAINS 'Ale'
+RETURN b.name AS BEER, s AS STYLE
+
+╒══════════════════════════════════════════════════╤═════════════════════════════════════════════╕
+│"BEER"                                            │"STYLE"                                      │
+╞══════════════════════════════════════════════════╪═════════════════════════════════════════════╡
+│"Abbey Ale"                                       │{"style":"Classic English-Style Pale Ale"}   │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Small Beer"                                      │{"style":"English-Style Pale Mild Ale"}      │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Big Dick's Olde Ale"                             │{"style":"Old Ale"}                          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Alaskan Amber"                                   │{"style":"Old Ale"}                          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adler BrÃ¤u Winter Ale"                          │{"style":"Old Ale"}                          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Wee Heavy"                                       │{"style":"Scotch Ale"}                       │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Scotch Ale"                                      │{"style":"Scotch Ale"}                       │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Loyal Duke Scotch Ale"                           │{"style":"Scotch Ale"}                       │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Half in the Bagpipe"                             │{"style":"Scotch Ale"}                       │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Jolly Scot Scottish Ale"                         │{"style":"Scotch Ale"}                       │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Michelob Irish Red"                              │{"style":"Irish-Style Red Ale"}              │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Pacific Ridge Pale Ale"                          │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Aurora Amber Ale"                                │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Purist Pale Ale"                                 │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Golden Light"                                    │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"North Pleasant Pale Ale"                         │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Limestone Crisp-Hoppy Pale Ale (discontinued)"   │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Liberty Ale"                                     │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"India Pale Ale"                                  │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Restoration Pale Ale"                            │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Anglers Ale"                                     │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adler BrÃ¤u Fox Classic River Ale"               │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Green Valley Stone Mill Pale Ale"                │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Speciale Reserve Ale"                            │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"(512) Pale"                                      │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Sky High Rye"                                    │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Graduation Ale"                                  │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"X Extra Pale Ale"                                │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Golden Ale"                                      │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Kentucky Ale"                                    │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Michelob Pale Ale"                               │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Amendment Pale Ale"                              │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Bacchanal Blonde"                                │{"style":"American-Style Pale Ale"}          │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"JuleÃ¸l"                                         │{"style":"Dark American-Belgo-Style Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Rochefort 6"                                     │{"style":"Dark American-Belgo-Style Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Turbodog"                                        │{"style":"Dark American-Belgo-Style Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Rude Elf's Reserve"                              │{"style":"Dark American-Belgo-Style Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Michelob Dunkel Weisse"                          │{"style":"Dark American-Belgo-Style Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"(512) IPA"                                       │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"IPA Series (Simcoe)"                             │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Hop Ottin IPA"                                   │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Cascade IPA"                                     │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Duet"                                            │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Nelson"                                          │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Alaskan IPA"                                     │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Abita Jockamo IPA"                               │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"IPA Series (Zeus)"                               │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"21A IPA"                                         │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Hoppy Trails India Pale Ale"                     │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Hop Explosion"                                   │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"IPA Series (Horizon)"                            │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"IPA"                                             │{"style":"American-Style India Pale Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Hopmouth Double IPA"                             │{"style":"Imperial or Double India Pale Ale"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Pure Hoppiness"                                  │{"style":"Imperial or Double India Pale Ale"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Double Trouble IPA"                              │{"style":"Imperial or Double India Pale Ale"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"North Star Red"                                  │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Limestone 1897 Original Amber Ale (discontinued)"│{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Budweiser American Ale"                          │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Amber Ale"                                       │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Fegley's Amber Lager"                            │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Grinnin' Grizzly Spiced Ale"                     │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Heater"                                          │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adler BrÃ¤u Holiday Ale"                         │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Celtic Knot Irish Red"                           │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adnams Fisherman"                                │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adler BrÃ¤u Tailgate Amber"                      │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Boont Amber Ale"                                 │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Righteous Red"                                   │{"style":"American-Style Amber/Red Ale"}     │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Alaskan Barley Wine Ale"                         │{"style":"American-Style Barley Wine Ale"}   │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adnams Tally Ho"                                 │{"style":"American-Style Barley Wine Ale"}   │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Broad Street Barleywine"                         │{"style":"American-Style Barley Wine Ale"}   │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"6"                                               │{"style":"Golden or Blonde Ale"}             │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Beach Bum Blonde Ale"                            │{"style":"Golden or Blonde Ale"}             │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Leffe Blonde"                                    │{"style":"Golden or Blonde Ale"}             │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Bankers Gold"                                    │{"style":"Golden or Blonde Ale"}             │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Alaskan Pale"                                    │{"style":"Golden or Blonde Ale"}             │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"South Park Blonde"                               │{"style":"Golden or Blonde Ale"}             │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Nut Brown Ale"                                   │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Trail Blaze Organic Brown Ale"                   │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Adler BrÃ¤u Downtown Brown"                      │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Massatucky Brown"                                │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Harvest Brown"                                   │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Raspberry Brown Ale"                             │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Nut Brown"                                       │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Christmas Ale"                                   │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Shakedown Nut Brown"                             │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"(512) Bruin"                                     │{"style":"American-Style Brown Ale"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Olde #8 Anniversary Ale"                         │{"style":"German-Style Brown Ale/Altbier"}   │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"(512) ALT"                                       │{"style":"German-Style Brown Ale/Altbier"}   │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"One"                                             │{"style":"Belgian-Style Pale Strong Ale"}    │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Abbey Roade Belgian Ale"                         │{"style":"Other Belgian-Style Ales"}         │
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Summer Solstice Cerveza Crema"                   │{"style":"American-Style Cream Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Apricot Ale"                                     │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Purple Haze"                                     │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Anchor Summer Beer"                              │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Michelob Hop Hound Amber Wheat"                  │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Sun Dog Amber Wheat"                             │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Abita Purple Haze"                               │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Water Gap Wheat"                                 │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Wildflower Honey Wheat"                          │{"style":"Light American Wheat Ale or Lager"}│
+├──────────────────────────────────────────────────┼─────────────────────────────────────────────┤
+│"Honey Rye Ale"                                   │{"style":"Specialty Honey Lager or Ale"}     │
+└──────────────────────────────────────────────────┴─────────────────────────────────────────────┘
+
+
+#3 Cervejas do tipo Brithsh Ale feitas no UK:
+
+MATCH (category:Category{category: 'British Ale'})<-[:BEER_CATEGORY]-(beer:Beer)-[:BREWED_AT]->(brewery: Brewery)-[:LOC_CITY]->(city:City)-[:LOC_STATE]->(state:State)-[:LOC_COUNTRY]->(country:Country {country: 'United Kingdom'})
+RETURN Distinct(beer.name) as beer,  brewery.name as brewery, city.city as city
+ORDER BY city, beer
+╒════════════════════════════════╤══════════════╤═══════════╕
+│"beer"                          │"brewery"     │"city"     │
+╞════════════════════════════════╪══════════════╪═══════════╡
+│"Adnam's Suffolk Special Bitter"│"Adnams & Co."│"Southwold"│
+├────────────────────────────────┼──────────────┼───────────┤
+│"Adnams Explorer"               │"Adnams & Co."│"Southwold"│
+├────────────────────────────────┼──────────────┼───────────┤
+│"Broadside Ale"                 │"Adnams & Co."│"Southwold"│
+└────────────────────────────────┴──────────────┴───────────┘
+
+#4 10 cervejas com o maior teor alcoolico da categoria 'Irish Ale':
+
+MATCH (b:Beer)-[r:BEER_CATEGORY]->(c:Category {category: 'Irish Ale'})
+RETURN b.name AS BEER_NAME, b.abv AS ALC ,c.category AS CATEGORY
+ORDER BY b.abv DESC
+LIMIT 10
+╒═══════════════════════════════════════════════╤═════╤═══════════╕
+│"BEER_NAME"                                    │"ALC"│"CATEGORY" │
+╞═══════════════════════════════════════════════╪═════╪═══════════╡
+│"(512) Whiskey Barrel Aged Double Pecan Porter"│8.2  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Foreign Extra Stout"                          │7.5  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"(512) Pecan Porter"                           │6.8  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Alaskan Smoked Porter"                        │6.5  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Pawn Shop Porter"                             │5.7  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Porter"                                       │5.6  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"General Pippo's Porter"                       │5.5  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Pennypacker Porter"                           │5.4  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Puffers Smoked Porter"                        │4.6  │"Irish Ale"│
+├───────────────────────────────────────────────┼─────┼───────────┤
+│"Guinness Draught"                             │4.3  │"Irish Ale"│
+└───────────────────────────────────────────────┴─────┴───────────┘
+
+#5 Todas as cervejas com 'Stout' no nome, odernadas alfabeticamente:
+
+MATCH (b:Beer)
+WHERE b.name CONTAINS 'Stout'
+RETURN b.name AS BEER
+ORDER BY b.name
+╒══════════════════════════════════╕
+│"BEER"                            │
+╞══════════════════════════════════╡
+│"563 Stout"                       │
+├──────────────────────────────────┤
+│"Adler BrÃ¤u Oatmeal Stout"       │
+├──────────────────────────────────┤
+│"Alaskan Stout"                   │
+├──────────────────────────────────┤
+│"Bare Knuckle Stout"              │
+├──────────────────────────────────┤
+│"Barney Flats Oatmeal Stout"      │
+├──────────────────────────────────┤
+│"Bourbon Imperial Stout"          │
+├──────────────────────────────────┤
+│"Foreign Extra Stout"             │
+├──────────────────────────────────┤
+│"Guinness 250th Anniversary Stout"│
+├──────────────────────────────────┤
+│"Guinness Extra Stout"            │
+├──────────────────────────────────┤
+│"Imperial Stout"                  │
+├──────────────────────────────────┤
+│"Kona Coffee Stout"               │
+├──────────────────────────────────┤
+│"Nitro Stout"                     │
+├──────────────────────────────────┤
+│"Oatmeal Stout"                   │
+├──────────────────────────────────┤
+│"Oyster Point Oyster Stout"       │
+├──────────────────────────────────┤
+│"Podge Belgian Imperial Stout"    │
+├──────────────────────────────────┤
+│"Speedway Stout"                  │
+├──────────────────────────────────┤
+│"Starboard Stout"                 │
+├──────────────────────────────────┤
+│"Susquehanna Stout"               │
+├──────────────────────────────────┤
+│"Sweeney Stout"                   │
+├──────────────────────────────────┤
+│"Two Sisters Imperial Stout"      │
+└──────────────────────────────────┘
+
+#6 Cervejas com IPA no nome e com qualquer estilo de Ale:
+
+MATCH (b:Beer)-[:BEER_STYLE]->(s:Style)
+WHERE b.name CONTAINS 'IPA' AND s.style CONTAINS 'Ale'
+RETURN b.name AS BEER, s.style AS STYLE
+╒══════════════════════╤═══════════════════════════════════╕
+│"BEER"                │"STYLE"                            │
+╞══════════════════════╪═══════════════════════════════════╡
+│"(512) IPA"           │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"IPA Series (Simcoe)" │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"Hop Ottin IPA"       │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"Cascade IPA"         │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"Alaskan IPA"         │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"Abita Jockamo IPA"   │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"IPA Series (Zeus)"   │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"21A IPA"             │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"IPA Series (Horizon)"│"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"IPA"                 │"American-Style India Pale Ale"    │
+├──────────────────────┼───────────────────────────────────┤
+│"Hopmouth Double IPA" │"Imperial or Double India Pale Ale"│
+├──────────────────────┼───────────────────────────────────┤
+│"Double Trouble IPA"  │"Imperial or Double India Pale Ale"│
+└──────────────────────┴───────────────────────────────────┘
+
+#7 Cervejas com teor alcolico maior que 9.0 que nao sejam produzidas na Belgica:
+
+MATCH (b:Beer)-[:BREWED_AT]->(brewery: Brewery)-[:LOC_CITY]->(city:City)-[:LOC_STATE]->(state:State)-[:LOC_COUNTRY]->(country:Country)
+WHERE country.country <> 'Belgium' AND b.abv > 9.0
+RETURN DISTINCT b.name AS BEER, country.country AS COUNTRY, b.abv AS ALCH
+ORDER BY b.abv
+╒═════════════════════════╤═══════════════╤══════╕
+│"BEER"                   │"COUNTRY"      │"ALCH"│
+╞═════════════════════════╪═══════════════╪══════╡
+│"Old Foghorn 2006"       │"United States"│9.4   │
+├─────────────────────────┼───────────────┼──────┤
+│"Wee Heavy"              │"United States"│9.5   │
+├─────────────────────────┼───────────────┼──────┤
+│"Double Trouble IPA"     │"United States"│9.8   │
+├─────────────────────────┼───────────────┼──────┤
+│"Old Foghorn 1998"       │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Old Foghorn 2002"       │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Old Foghorn 1996"       │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Old Foghorn 2001"       │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Grand Cru 2003"         │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Old Numbskull 2003"     │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Horny Devil"            │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Grand Cru 2006"         │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Four"                   │"United States"│10    │
+├─────────────────────────┼───────────────┼──────┤
+│"Alaskan Barley Wine Ale"│"United States"│10.4  │
+├─────────────────────────┼───────────────┼──────┤
+│"Rude Elf's Reserve"     │"United States"│10.5  │
+├─────────────────────────┼───────────────┼──────┤
+│"Speedway Stout"         │"United States"│12    │
+
+#8 10 estilos com o maior numero diferentes de cervejas:
+
+MATCH (b:Beer)-[:BEER_STYLE]->(s:Style)
+WITH s, COUNT(b) AS total
+RETURN s.style AS STYLE , total AS NUM_OF_DIF_BEERS
+ORDER BY total DESC
+LIMIT 10
+╒═══════════════════════════════════╤══════════════════╕
+│"STYLE"                            │"NUM_OF_DIF_BEERS"│
+╞═══════════════════════════════════╪══════════════════╡
+│"American-Style Pale Ale"          │22                │
+├───────────────────────────────────┼──────────────────┤
+│"American-Style Lager"             │18                │
+├───────────────────────────────────┼──────────────────┤
+│"Porter"                           │17                │
+├───────────────────────────────────┼──────────────────┤
+│"American-Style Stout"             │16                │
+├───────────────────────────────────┼──────────────────┤
+│"American-Style India Pale Ale"    │14                │
+├───────────────────────────────────┼──────────────────┤
+│"American-Style Amber/Red Ale"     │13                │
+├───────────────────────────────────┼──────────────────┤
+│"Traditional German-Style Bock"    │12                │
+├───────────────────────────────────┼──────────────────┤
+│"American-Style Brown Ale"         │10                │
+├───────────────────────────────────┼──────────────────┤
+│"American-Style Light Lager"       │9                 │
+├───────────────────────────────────┼──────────────────┤
+│"Light American Wheat Ale or Lager"│8                 │
+└───────────────────────────────────┴──────────────────┘
+
+#9 Caminho mais curto entre "Bare Knuckle Stout" e "Hop Ottin IPA":
+
+MATCH path=shortestPath((b1:Beer)-[*]-(b2:Beer))
+WHERE b1.name="Bare Knuckle Stout" AND  b2.name="Hop Ottin IPA"
+RETURN length(path) AS PATH_LEN, path AS PATH
+╒══════════╤══════════════════════════════════════════════════════════════════════╕
+│"PATH_LEN"│"PATH"                                                                │
+╞══════════╪══════════════════════════════════════════════════════════════════════╡
+│2         │[{"abv":0,"name":"Bare Knuckle Stout"},{},{"category":"North American │
+│          │Ale"},{"category":"North American Ale"},{},{"abv":7,"name":"Hop Ottin │
+│          │IPA"}]                                                                │
+└──────────┴──────────────────────────────────────────────────────────────────────┘
+
+#10 Obter o maior comprimento entre 2 cervejas diferentes. Retornar o tamanho, nomes e o path:
+
+MATCH path=shortestPath((b1:Beer)-[*]-(b2:Beer))
+WHERE b1.name <> b2.name
+RETURN LENGTH(path) AS LENGTH, b1.name AS BEER1, b2.name AS BEER2, path AS PATH
+ORDER BY LENGTH DESC
+LIMIT 1
+╒════════╤══════════════╤═════════╤══════════════════════════════════════════════════════════════════════╕
+│"LENGTH"│"BEER1"       │"BEER2"  │"PATH"                                                                │
+╞════════╪══════════════╪═════════╪══════════════════════════════════════════════════════════════════════╡
+│18      │"Scottish Ale"│"Spezial"│[{"abv":4.8,"name":"Scottish Ale"},{},{"country":"United States","webs│
+│        │              │         │ite":"","code":"","city":"Valparaiso","phone":"(219) 548-3300","addres│
+│        │              │         │s1":"210 Aberdeen Dr.","latitude":"41.4392","name":"Aberdeen Brewing",│
+│        │              │         │"state":"Indiana","longitude":"-87.1078"},{"country":"United States","│
+│        │              │         │website":"","code":"","city":"Valparaiso","phone":"(219) 548-3300","ad│
+│        │              │         │dress1":"210 Aberdeen Dr.","latitude":"41.4392","name":"Aberdeen Brewi│
+│        │              │         │ng","state":"Indiana","longitude":"-87.1078"},{},{"country":"United St│
+│        │              │         │ates","city":"Valparaiso","state":"Indiana"},{"country":"United States│
+│        │              │         │","city":"Valparaiso","state":"Indiana"},{},{"state":"Indiana"},{"stat│
+│        │              │         │e":"Indiana"},{},{"country":"United States"},{"country":"United States│
+│        │              │         │"},{},{"state":"California"},{"state":"California"},{},{"country":"Uni│
+│        │              │         │ted States","city":"San Francisco","state":"California"},{"country":"U│
+│        │              │         │nited States","city":"San Francisco","state":"California"},{},{"countr│
+│        │              │         │y":"United States","website":"","code":"94107","phone":"1-415-863-8350│
+│        │              │         │","city":"San Francisco","address1":"1705 Mariposa Street","latitude":│
+│        │              │         │"37.7635","name":"Anchor Brewing","state":"California","longitude":"-1│
+│        │              │         │22.401"},{"country":"United States","website":"","code":"94107","phone│
+│        │              │         │":"1-415-863-8350","city":"San Francisco","address1":"1705 Mariposa St│
+│        │              │         │reet","latitude":"37.7635","name":"Anchor Brewing","state":"California│
+│        │              │         │","longitude":"-122.401"},{},{"abv":5.5,"name":"Bock"},{"abv":5.5,"nam│
+│        │              │         │e":"Bock"},{},{"style":"Traditional German-Style Bock"},{"style":"Trad│
+│        │              │         │itional German-Style Bock"},{},{"abv":7.5,"name":"St. Martin Doppelboc│
+│        │              │         │k"},{"abv":7.5,"name":"St. Martin Doppelbock"},{},{"country":"Germany"│
+│        │              │         │,"website":"http://www.aktien-brauerei.de/","code":"","phone":"49-(0)8│
+│        │              │         │341-/-430430","city":"Kaufbeuren","address1":"Hohe Buchleuthe 3","lati│
+│        │              │         │tude":"47.8781","name":"Aktienbrauerei Kaufbeuren","state":"Bayern","l│
+│        │              │         │ongitude":"10.6161"},{"country":"Germany","website":"http://www.aktien│
+│        │              │         │-brauerei.de/","code":"","phone":"49-(0)8341-/-430430","city":"Kaufbeu│
+│        │              │         │ren","address1":"Hohe Buchleuthe 3","latitude":"47.8781","name":"Aktie│
+│        │              │         │nbrauerei Kaufbeuren","state":"Bayern","longitude":"10.6161"},{},{"cou│
+│        │              │         │ntry":"Germany","city":"Kaufbeuren","state":"Bayern"},{"country":"Germ│
+│        │              │         │any","city":"Kaufbeuren","state":"Bayern"},{},{"state":"Bayern"},{"sta│
+│        │              │         │te":"Bayern"},{},{"country":"Germany"},{"country":"Germany"},{},{"stat│
+│        │              │         │e":"Baden-Wrttemberg"},{"state":"Baden-Wrttemberg"},{},{"country":"Ger│
+│        │              │         │many","city":"Alpirsbach","state":"Baden-Wrttemberg"},{"country":"Germ│
+│        │              │         │any","city":"Alpirsbach","state":"Baden-Wrttemberg"},{},{"country":"Ge│
+│        │              │         │rmany","website":"","code":"","phone":"49-(0)7444-/-67-0","city":"Alpi│
+│        │              │         │rsbach","address1":"Marktplatz 1","latitude":"48.3457","name":"Alpirsb│
+│        │              │         │acher Klosterbru","state":"Baden-Wrttemberg","longitude":"8.4031"},{"c│
+│        │              │         │ountry":"Germany","website":"","code":"","phone":"49-(0)7444-/-67-0","│
+│        │              │         │city":"Alpirsbach","address1":"Marktplatz 1","latitude":"48.3457","nam│
+│        │              │         │e":"Alpirsbacher Klosterbru","state":"Baden-Wrttemberg","longitude":"8│
+│        │              │         │.4031"},{},{"abv":5.2,"name":"Spezial"}]                              │
+└────────┴──────────────┴─────────┴──────────────────────────────────────────────────────────────────────┘

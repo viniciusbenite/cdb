@@ -1,0 +1,201 @@
+# Vinicius Benite Ribeiro
+# 82773
+
+CREATE KEYSPACE Witcher3_weapons WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1 };
+
+
+CREATE TABLE Characters(
+    char_id int,
+    level int,
+    gender text,
+    name text,
+    Primary key(char_id)
+);
+
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(001, 'male', 99, 'Geralt of Riviar');
+
+BEGIN BATCH
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(002, 'female', 140, 'Ciri');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(003, 'male', 13, 'Lambert');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(004, 'female', 67, 'Yeneffer');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(005, 'female', 99, 'Triss Merigold');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(006, 'male', 23, 'Blood Baron');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(007, 'male', 1, 'Roche');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(008, 'female', 95, 'Keyra Metz');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(009, 'male', 1, 'Dummy1');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(010, 'male', 1, 'Dummy2');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(011, 'male', 1, 'Dummy3');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(012, 'male', 1, 'Dummy4');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(013, 'male', 42, 'Whoreson Junior');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(014, 'male', 3, 'Dandelion');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(015, 'female', 35, 'Philippa Eilhart');
+INSERT INTO Characters(char_id, gender, level, name)
+VALUES(016, 'male', 29, 'King Foltest');
+APPLY BATCH;
+
+###########################################################
+
+CREATE TABLE Weapons(
+    weapon_id int,
+    name text,
+    required_level int,
+    damage map<text,int>,
+    bonuses list<text>,
+    type text,
+    item_level text,
+    location list<text>,
+    Primary key((weapon_id, item_level), required_level)
+);
+
+BEGIN BATCH
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(020, 'Ultimatun', 5, {'physical': 55}, ['none'], 'steel', 'normal', ['Velen', 'Novigrad']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(021, 'Snake Bite', 20, {'physical': 55, 'poison': 40}, ['poisoning', 'bleeding'], 'steel', 'rare', ['Velen', 'Novigrad']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(022, 'Ash', 5, {'physical': 45, 'fire': 45, 'critical':10}, ['burn', 'critical_chance'], 'steel', 'rare', ['Velen', 'Novigrad', 'White Peech']);
+
+UPDATE Weapons SET item_level='rare' WHERE weapon_id=022 AND item_level='rate';
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(023, 'Tir Blade', 1, {'physical': 30}, ['none'], 'steel', 'normal', ['Velen']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(024, 'Ultimatun', 90, {'physical': 250, 'ice':150, 'critical': 300}, ['freeze', 'critical_chance', 'fear'], 'steel', 'epic', ['Toussaint']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(025, 'Wolf Silver Sword', 50, {'physical': 200, 'ice': 250}, ['freeze', 'bleeding'], 'silver', 'witcher_equip', ['Kaher Morhen']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(026, 'Wolf Steel Sword', 50, {'physical': 200, 'fire': 100, 'critical':150}, ['burn', 'fear', 'critical_chance'], 'steel', 'witcher_equip', ['Kaher Morhen']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(027, 'Bear Silver Sword', 75, {'physical': 300, 'critical':350}, ['bleeding', 'stun'], 'silver', 'witcher_equip', ['Velen', 'Novigrad', 'Skelighe']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(028, 'Bear Steel Sword', 75, {'physical': 350, 'ice': 400}, ['freeze', 'fear'], 'steel', 'witcher_equip', ['South Realm', 'Novigrad']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(029, 'Crossbow', 27, {'physical': 55, 'critical':65}, ['bleeding', 'piercing'], 'ranged', 'especial', ['Velen', 'Novigrad', 'Black Orchard']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(0200, 'Silver Mace', 80, {'physical': 360, 'fire': 300, 'ice':250}, ['internal trauma', 'burn', 'stun'], 'silver', 'epic', ['Velen', 'Novigrad', 'Vizima', 'Toussaint']);
+
+INSERT INTO Weapons(weapon_id, name, required_level, damage, bonuses, type, item_level, location)
+VALUES(0201, 'Dragons Breath', 100, {'physical': 500, 'fire': 890}, ['burn', 'fear', 'bleeding', 'piercing'], 'steel', 'relic', ['Black Marshes']);
+APPLY BATCH;
+
+########################################################
+
+CREATE TABLE Locations(
+    location_id int,
+    name text,
+    required_level int,
+    loots set<text>,
+    Primary key(location_id)
+);
+
+BEGIN BATCH
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(401, 'Velen', 1, {'Ultimatun', 'Tir Blade', 'Ash'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(402, 'White Peech', 1, {'Ultimatun', 'Snake Bite', 'Ash'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(403, 'Novigrad', 5, {'Ultimatun', 'Tir Blade', 'Wolf Steel Sword'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(404, 'Vizima', 10, {'Ultimatun', 'Bear Silver Sword', 'Wolf Silver Sword'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(405, 'Toussaint', 35, {'Ultimatun', 'Bear Steel Sword', 'Ash'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(406, 'Black Orchard', 50, {'Ultimatun', 'Tir Blade', 'Ash'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(407, 'Black Marshes', 95, {'Dragons Breath'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(408, 'Kaher Morhen', 15, {'Wolf Steel Sword', 'Wolf Silver Sword'});
+INSERT INTO Locations(location_id, name, required_level, loots)
+VALUES(401, 'Skelighe', 70, {'Ultimatun', 'Bear Steel Sword', 'Bear Silver Sword'});
+APPLY BATCH;
+
+#############################
+
+CREATE TABLE Monsters(
+    monster_id int,
+    name text,
+    monster_level int,
+    location text,
+    weaknesess list<text>,
+    strength list<text>,
+    Primary key((monster_id, monster_level), location)
+);
+
+BEGIN BATCH
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(301, 'Eredin', 100, 'Wild Hunt', [], ['fire', 'ice', 'poison', 'physical', 'bleeding']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(302, 'Caranthir Ar-Feiniel', 99, 'Wild Hunt', ['fire'], ['ice', 'poison', 'physical', 'bleeding']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(302, 'Caranthir Ar-Feiniel', 99, 'Wild Hunt', ['fire'], ['ice', 'poison', 'physical', 'bleeding']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(304, 'Griffin', 50, 'Velen', [], ['fire', 'ice', 'poison', 'physical', 'bleeding']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(305, 'Ice Elemental', 20, 'Velen', ['fire'], ['fire', 'poison', 'physical', 'bleeding']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(306, 'Ghoul', 2, 'Novigrad, Velen, White Peech', ['physical', 'fire'], []);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(307, 'Grave Hag', 3, 'Vizima', ['fire', 'ice', 'silver'], []);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(308, 'Stone Giant', 70, 'Velen', [], ['physical', 'bleeding', 'poison','fire']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(309, 'Imp', 10, 'Novigrad', ['ice', 'poison'], ['physical', 'bleeding']);
+INSERT INTO Monsters(monster_id, name, monster_level, location, weaknesess, strength)
+VALUES(304, 'Banshee', 45, 'Skelighe', ['fire'], ['physical', 'bleeding', 'piercing']);
+APPLY BATCH;
+
+
+########################################
+
+# apend numa list
+UPDATE Monsters SET weaknesess=weaknesess+['ice'] WHERE monster_id=304 AND monster_level=50 IF EXISTS;
+
+# update normal
+UPDATE Weapons SET type='silver' WHERE weapon_id=021 AND item_level='rare' IF EXISTS;
+
+# remover um item de um mapa
+UPDATE Weapons SET damage=damage-{'ice': 250} WHERE weapon_id=024 AND item_level='epic' IF EXISTS;
+
+# add varios elementos ao mapa se existe e o type=Steel
+UPDATE Weapons SET damage=damage+{'ice': 250, 'poison':300} WHERE weapon_id=0201 AND item_level='relic' IF EXISTS AND type='steel';
+
+# add varios elementos ao set
+UPDATE Locations SET loots=loots+{'Til Blade', 'Ash'} WHERE location_id=401 IF EXISTS;
+
+# deletar um elemento de uma lista na posicao X
+DELETE weaknesess[0] FROM Monsters WHERE monster_id=304 AND monster_level=50 IF EXISTS;
+
+# deletar um elemento de um map com chave xpto
+DELETE damage['ice'] WHERE weapon_id28 AND type='steel' IF EXISTS;
+
+# deletar todos os elementos
+DELETE loots FROM Locations WHERE location_id=401 IF EXISTS;
+
+# timestamp e procurar num intervalo
+DELETE name FROM Characters USING TIMESTAMP 12345 WHERE char_id IN (009, 011) IF EXISTS;
+
+DELETE weaknesess[1] FROM Monsters WHERE monster_id=307 AND monster_level=3

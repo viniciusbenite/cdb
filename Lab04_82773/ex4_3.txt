@@ -1,0 +1,66 @@
+num, svn_id, real_name, project_name, role_on_project, organization
+
+"tabelas"
+num -> id
+user(num, real_name) -> queries 8 e 9 impossiveis
+user(svn_in, real_name)
+projects(project_name,  organization)
+
+"relacoes"
+role_on_project
+
+# Load do csv:
+load csv with headers from "file:///git_selection.csv" as data
+merge (user:User{userID:data.svn_id,userName:data.real_name}) 
+merge (project:Project{projectName:data.project_name,organization:data.organization})
+
+load csv with headers from "file:///git_selection.csv" as data
+match (user:User{userID:data.svn_id})
+match (project:Project{projectName:data.project_name})
+merge (user)-[:CONTRIBUTED_IN{projectRole:data.role_on_project}]->(project)
+
+queries
+
+#1
+MATCH (u:User)
+RETURN u
+
+#2
+MATCH (u:User)
+RETURN DISTINCT u.userName
+
+#3
+
+
+#4
+MATCH (u:User)-[r:CONTRIBUTED_IN]->(p:Project)
+WHERE r.projectRole <> "NA"
+RETURN u.userName AS NAME , COUNT(p) AS TOTAL_PROJECTS
+
+#5
+MATCH (u:User)-[r:CONTRIBUTED_IN]->(p:Project)
+WHERE r.projectRole <> "NA"
+RETURN u.userName AS NAME , COUNT(p) AS TOTAL_PROJECTS
+ORDER BY TOTAL_PROJECTS DESC
+
+#6
+MATCH (u:User)-[r:CONTRIBUTED_IN]->(p:Project)
+WHERE r.projectRole <> 'NA'
+RETURN p.projectName AS PROJECT_NAME, COUNT(u) AS TOTAL_MEMERS
+
+#7
+MATCH (u:User)-[r:CONTRIBUTED_IN]->(p:Project)
+WHERE r.projectRole = 'Committer'
+RETURN p.projectName AS PROJECT_NAME, COUNT(u) AS TOTAL_MEMERS
+
+
+#8
+MATCH (u1:User)-[r1:CONTRIBUTED_IN]->(p:Project)<-[r2:CONTRIBUTED_IN]-(u2:User{userID:'atm'})
+RETURN u1.userName AS USER_NAME
+
+#9
+MATCH (u1:User)-[r1:CONTRIBUTED_IN]->(p:Project)<-[r2:CONTRIBUTED_IN]-(u2:User{userID:'atm'})
+WHERE r1.projectRole = 'Committer' AND r2.projectRole = 'PMC'
+RETURN u1.userName AS USER_NAME, r1.projectRole AS ROLE
+
+
